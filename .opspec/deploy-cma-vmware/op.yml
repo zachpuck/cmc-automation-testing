@@ -1,4 +1,4 @@
-name: deploy-cma
+name: deploy-cma-vmware
 description: deploy cma components
 inputs:
   githubUsername:
