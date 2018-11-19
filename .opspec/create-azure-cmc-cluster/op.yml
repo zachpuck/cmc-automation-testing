@@ -1,0 +1,79 @@
+name: create-azure-cmc-cluster
+description: create the cmc infra
+inputs:
+  subscriptionId:
+    string:
+      constraints: { minLength: 1 }
+      description: id of azure subscription
+  loginId:
+    string:
+      constraints: { minLength: 1 }
+      description: id of user, service principal, or app to login with
+  loginSecret:
+    string:
+      constraints: { minLength: 1 }
+      description: secret of user, service principal, or app to login with
+      isSecret: true
+  name:
+    string:
+      constraints: { minLength: 1 }
+      description: name of the api management service
+  location:
+    string:
+      constraints: { minLength: 1 }
+      description: location of the api management service
+      default: westus
+  loginType:
+    string:
+      constraints: { minLength: 1 }
+      default: sp
+  loginTenantId:
+    string:
+      constraints: { minLength: 1 }
+  sshKeyValue:
+    file:
+      description: ssh key value for provisioned vm
+      default: .env/id_rsa.pub
+  k8sVersion:
+    string:
+      constraints: { minLength: 1 }
+      default: 1.11.3
+  clusterAccountId:
+    string:
+      constraints: { minLength: 1 }
+      description: account used by cluster to create resources
+  clusterAccountSecret:
+    string:
+      constraints: { minLength: 1 }
+      description: password of clusterAccountId
+version: 0.0.1
+run:
+  serial:
+    - op:
+        ref: github.com/opspec-pkgs/azure.group.create#2.1.0
+        inputs:
+          loginId:
+          loginSecret:
+          name: $(name)-group
+          subscriptionId:
+          location:
+          loginTenantId:
+          loginType:
+    - container:
+        image: { ref: 'azuresdk/azure-cli-python:2.0.25' }
+        cmd: [ /cmd.sh ]
+        files:
+          /cmd.sh:
+          /sshKeyValue: $(sshKeyValue)
+        envVars:
+          subscriptionId:
+          loginId:
+          loginSecret:
+          loginTenantId:
+          loginType:
+          resourceGroup: $(name)-group
+          name:
+          k8sVersion:
+          clusterAccountId:
+          clusterAccountSecret:
+
