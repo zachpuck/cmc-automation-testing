@@ -28,7 +28,5 @@ opctl run create-azure-infra
 
 
 # Todo:
-1. generates the provider-components.yaml
-2. apply to cmc: kubectl create -f clusterapi-apiserver.yaml -f provider-components.yaml
-3. helm install cma-vmware on cmc
-4. make call to cma-vmware to create cluster
+1. make call to cma-vmware to create cluster
+2. add aws cmc op
