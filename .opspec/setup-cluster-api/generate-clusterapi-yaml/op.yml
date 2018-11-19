@@ -1,0 +1,36 @@
+name: setup-cluster-api/generate-clusterapi-yaml
+description: generates the clusterapi-apiserver.yaml
+inputs:
+  githubUsername:
+    string:
+      constraints: { minLength: 1 }
+      description: username for auth
+  githubPassword:
+    string:
+      constraints: { minLength: 1 }
+      description: password for auth (or personal access token)
+      isSecret: true
+  githubRepoURL:
+    string:
+      constraints: { format: uri }
+      description: url to clone from
+      default: https://github.com/oneilcin/cluster-api-tools
+outputs:
+  clusterAPIServerYaml:
+    file:
+      description: generated yaml file for clusterapi-apiserver
+version: 0.0.1
+run:
+  serial:
+    - container:
+        image: { ref: 'golang:1.10-alpine' }
+        cmd: [ /cmd.sh ]
+        files:
+          /cmd.sh:
+          /clusterapi-apiserver.yaml: $(clusterAPIServerYaml)
+        dirs:
+          /repo: $(repo)
+        envVars:
+          username: $(githubUsername)
+          password: $(githubPassword)
+          url: $(githubRepoURL)

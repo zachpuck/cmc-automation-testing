@@ -1,0 +1,59 @@
+name: setup-cluster-api
+description: used to setup the cluster api and ssh provider components
+inputs:
+  githubUsername:
+    string:
+      constraints: { minLength: 1 }
+      description: username for auth
+  githubPassword:
+    string:
+      constraints: { minLength: 1 }
+      description: password for auth (or personal access token)
+      isSecret: true
+  kubeConfig:
+    file:
+      description: kubeconfig file for the target environment
+run:
+  serial:
+    # generate clusterapi-apiserver.yaml
+    - op:
+        ref: setup-cluster-api/generate-clusterapi-yaml
+        inputs:
+          githubUsername:
+          githubPassword:
+          githubRepoURL: https://github.com/oneilcin/cluster-api-tools
+        outputs:
+          clusterAPIServerYaml:
+    # apply clusterapi-apiserver.yaml to cmc cluster
+    - container:
+        image: { ref: 'opspecpkgs/k8s.configuration.apply:2.1.0' }
+        cmd:
+          - sh
+          - -ce
+          - |
+            kubectl apply -f /configuration
+        files:
+          /configuration: $(clusterAPIServerYaml)
+          /root/.kube/config: $(kubeConfig)
+    # generate provider-components.yaml
+    - op:
+        ref: setup-cluster-api/generate-ssh-provider-components
+        inputs:
+          githubUsername:
+          githubPassword:
+          githubRepoURL: https://github.com/samsung-cnct/cluster-api-provider-ssh
+          osType: centos
+          clusterPrivateKey: .env/id_rsa
+        outputs:
+          providerComponentsYaml:
+    # apply provider-components.yaml to cmc cluster
+    - container:
+        image: { ref: 'opspecpkgs/k8s.configuration.apply:2.1.0' }
+        cmd:
+          - sh
+          - -ce
+          - |
+            kubectl apply -f /configuration
+        files:
+          /configuration: $(providerComponentsYaml)
+          /root/.kube/config: $(kubeConfig)
