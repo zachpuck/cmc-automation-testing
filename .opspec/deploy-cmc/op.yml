@@ -1,0 +1,35 @@
+name: deploy-cmc
+description: deploy components of a cmc
+inputs:
+  githubUsername:
+    string:
+      constraints: { minLength: 1 }
+      description: username for auth
+  githubPassword:
+    string:
+      constraints: { minLength: 1 }
+      description: password for auth (or personal access token)
+      isSecret: true
+  kubeConfig:
+    file:
+      description: kubeconfig file for the target environment
+  enableVMware:
+    boolean:
+      description: enable cma-vmware on cmc
+run:
+  serial:
+    - op: 
+        ref: deploy-cmc/deploy-tiller
+        inputs:
+          kubeConfig:
+    - op:
+        ref: deploy-cmc/deploy-cert-manager
+        inputs:
+          kubeConfig:
+    - op:
+        ref: deploy-cmc/deploy-cma-vmware
+        inputs:
+          githubUsername:
+          githubPassword:
+          kubeConfig:
+          enable: $(enableVMware)

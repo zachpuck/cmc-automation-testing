@@ -1,5 +1,5 @@
-name: deploy-cma-vmware
-description: deploy cma components
+name: deploy-cmc/deploy-cma
+description: deploy cluster-manager-api in cmc
 inputs:
   githubUsername:
     string:
@@ -13,6 +13,9 @@ inputs:
   kubeConfig:
     file:
       description: kubeconfig file for the target environment
+  enable:
+    boolean:
+      description: enable cma on this cluster
 run:
   serial:
     - op:
@@ -20,7 +23,7 @@ run:
         inputs:
           username: $(githubUsername)
           password: $(githubPassword)
-          url: https://github.com/samsung-cnct/cma-vmware
+          url: https://github.com/samsung-cnct/cluster-manager-api
         outputs:
           repo:
     - container:
@@ -29,6 +32,7 @@ run:
           /repo: $(repo)
         cmd: [ /cmd.sh ]
         files:
-          /tiller.yaml:
           /cmd.sh:
           /root/.kube/config: $(kubeConfig)
+        envVars:
+          enable:
