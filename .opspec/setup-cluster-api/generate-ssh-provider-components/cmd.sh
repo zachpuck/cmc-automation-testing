@@ -17,6 +17,12 @@ git clone "$url" /go/src/repo
 ### setup environment variables ###
 export OS_TYPE=$osType
 export CLUSTER_PRIVATE_KEY=$(cat /clusterPrivateKey | base64 )
+export SDS_ENV=$sdsEnv
+
+# to build off a specific PR uncomment below and update with branch name
+# cd /go/src/repo
+# git checkout -b <username>-<brand-name> master
+# git pull https://github.com/<username>/cluster-api-provider-ssh.git <brand-name>
 
 ### generate yaml ###
 cd /go/src/repo/clusterctl/examples/ssh

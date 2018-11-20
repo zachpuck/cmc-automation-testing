@@ -19,10 +19,13 @@ inputs:
     string:
       constraints: { enum: [ ubuntu, centos ]}
       default: centos
+  sdsEnv:
+    boolean:
+      description: internal sds environment
+      default: false
   clusterPrivateKey:
     file:
       description: the private key used to connect to the cluster
-      default: .env/id_rsa
 outputs:
   providerComponentsYaml:
     file:
@@ -43,4 +46,6 @@ run:
           username: $(githubUsername)
           password: $(githubPassword)
           url: $(githubRepoURL)
-          osType: 
+          osType:
+          sdsEnv:
+

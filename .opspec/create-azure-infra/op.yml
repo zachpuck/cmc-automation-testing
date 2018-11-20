@@ -32,7 +32,7 @@ inputs:
       constraints: { minLength: 1 }
   sshKeyValue:
     file:
-      description: ssh key value for provisioned vm
+      description: ssh public key value for provisioned vm
 outputs:
   controlPlaneIP:
     string:

@@ -1,0 +1,38 @@
+name: deploy-cmc/deploy-cma-operator
+description: deploy cma-operator in cmc
+inputs:
+  githubUsername:
+    string:
+      constraints: { minLength: 1 }
+      description: username for auth
+  githubPassword:
+    string:
+      constraints: { minLength: 1 }
+      description: password for auth (or personal access token)
+      isSecret: true
+  kubeConfig:
+    file:
+      description: kubeconfig file for the target environment
+  enable:
+    boolean:
+      description: enable cma-operator on this cluster
+run:
+  serial:
+    - op:
+        ref: github.com/opspec-pkgs/git.repo.clone-https#1.0.0
+        inputs:
+          username: $(githubUsername)
+          password: $(githubPassword)
+          url: https://github.com/samsung-cnct/cma-operator
+        outputs:
+          repo:
+    - container:
+        image: { ref: 'dtzar/helm-kubectl' }
+        dirs:
+          /repo: $(repo)
+        cmd: [ /cmd.sh ]
+        files:
+          /cmd.sh:
+          /root/.kube/config: $(kubeConfig)
+        envVars:
+          enable:
