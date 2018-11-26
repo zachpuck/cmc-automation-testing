@@ -9,4 +9,6 @@ cd /go/src/
 go get sigs.k8s.io/kind
 
 echo "create cluster"
-kind create cluster
+kind create cluster --name $name
+
+cat ~/.kube/kind-config-$name > /kubeConfig

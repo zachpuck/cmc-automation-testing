@@ -1,6 +1,10 @@
 name: create-kind-cluster
 description: provision local dev environment using kind
 inputs:
+  name:
+    string:
+      description: name of kind cluster
+      default: test-cluster
   debug:
     boolean:
       description: enable debug mode
@@ -8,14 +12,19 @@ inputs:
   dockerSocket:
     socket:
       description: access to docker on node
+outputs:
+  kubeConfig:
+    file:
+      description: kind cluster kubeConfig
 run:
-  serial:
-  - container:
-      image: { ref: 'golang:1.10-alpine' }
-      cmd: [ /cmd.sh ]
-      files:
-        /cmd.sh:
-      envVars:
-        debug:
-      sockets:
-        /var/run/docker.sock: dockerSocket
+  container:
+    image: { ref: 'golang:1.10-alpine' }
+    cmd: [ /cmd.sh ]
+    files:
+      /cmd.sh:
+      /kubeConfig: $(kubeConfig)
+    envVars:
+      name:
+      debug:
+    sockets:
+      /var/run/docker.sock: dockerSocket
