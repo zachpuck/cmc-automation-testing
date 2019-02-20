@@ -27,11 +27,6 @@ kubectl get pods -n kube-system
 
 kubectl get nodes
 
-export HELM_HOST=localhost:44134
-# expects tillerless helm, since HELM_HOST is defined
-helm plugin install https://github.com/rimusz/helm-tiller || true
-helm tiller start-ci
-
  # install cert-manager (required by cma-aws chart)
 # installing cert-manager and ingress, but using NodePort for CI
 # Note: removed --wait, it times out downloading the .tgz file
