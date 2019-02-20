@@ -27,7 +27,7 @@ kubectl get pods -n kube-system
 
 kubectl get nodes
 
-echo $HELM_HOST
+export HELM_HOST=localhost:44134
 # expects tillerless helm, since HELM_HOST is defined
 helm plugin install https://github.com/rimusz/helm-tiller || true
 helm tiller start-ci
