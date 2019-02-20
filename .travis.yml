@@ -25,4 +25,7 @@ jobs:
 
         # Set KUBECONFIG environment variable
         - export KUBECONFIG="$(kind get kubeconfig-path)"
+
+        # install helm
+        - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
       script: ./script.sh
