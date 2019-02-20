@@ -13,6 +13,11 @@ jobs:
         # Download and install kubectl
         - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
+        # install helm
+        - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh && chmod 700 get_helm.sh && ./get_helm.sh
+
+        - helm list
+
         # Download and install KinD
         - go get sigs.k8s.io/kind
         # It's possible to download and install KinD using curl, similar as for kubectl
@@ -25,7 +30,4 @@ jobs:
 
         # Set KUBECONFIG environment variable
         - export KUBECONFIG="$(kind get kubeconfig-path)"
-
-        # install helm
-        - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh && chmod 700 get_helm.sh && ./get_helm.sh
       script: ./script.sh
