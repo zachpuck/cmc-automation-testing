@@ -14,14 +14,12 @@ jobs:
         - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
         # install helm
-#        - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh && chmod 700 get_helm.sh && ./get_helm.sh
         - curl -O https://storage.googleapis.com/kubernetes-helm/helm-v2.12.1-linux-amd64.tar.gz
         - tar -xzf ./helm-v2.12.1-linux-amd64.tar.gz
         - sudo mv ./linux-amd64/helm /usr/local/bin
         - rm -rf ./linux-amd64 ./helm-v2.12.1-linux-amd64.tar.gz
         - helm init -c
         - export HELM_HOST=localhost:44134
-#        - helm plugin install https://github.com/rimusz/helm-tiller
 
         # Download and install KinD
         - go get sigs.k8s.io/kind
@@ -29,10 +27,4 @@ jobs:
         # This is useful in cases when Go toolchain isn't available or you prefer running stable version
         # Binaries for KinD are available on GitHub Releases: https://github.com/kubernetes-sigs/kind/releases
         # - curl -Lo kind https://github.com/kubernetes-sigs/kind/releases/download/0.0.1/kind-linux-amd64 && chmod +x kind && sudo mv kind /usr/local/bin/
-
-        # Create a new Kubernetes cluster using KinD
-#        - kind create cluster --wait=10m --loglevel=debug
-
-        # Set KUBECONFIG environment variable
-#        - export KUBECONFIG="$(kind get kubeconfig-path)"
       script: ./script.sh
