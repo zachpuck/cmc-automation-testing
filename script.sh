@@ -27,6 +27,9 @@ kubectl get pods -n kube-system
 
 kubectl get nodes
 
+# tillerless helm
+helm tiller start
+
  # install cert-manager (required by cma-aws chart)
 # installing cert-manager and ingress, but using NodePort for CI
 # Note: removed --wait, it times out downloading the .tgz file

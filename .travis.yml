@@ -23,8 +23,6 @@ jobs:
         - export HELM_HOST=localhost:44134
         - helm plugin install https://github.com/rimusz/helm-tiller
 
-        - helm tiller start
-
         # Download and install KinD
         - go get sigs.k8s.io/kind
         # It's possible to download and install KinD using curl, similar as for kubectl
