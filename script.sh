@@ -5,27 +5,27 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
- function finish {
+function finish {
   kind delete cluster
 }
 trap finish EXIT
 
- echo "The current environment contains these variables: $(env)"
+echo "The current environment contains these variables: $(env)"
 echo "The current directory is $(pwd)"
 
- service docker start
+service docker start
 sleep 10
 kind create cluster --wait=10m --loglevel=debug
 
- export KUBECONFIG=$(kind get kubeconfig-path)
+export KUBECONFIG=$(kind get kubeconfig-path)
 
- kubectl create clusterrolebinding superpowers --clusterrole=cluster-admin --user=system:serviceaccount:kube-system:default
+kubectl create clusterrolebinding superpowers --clusterrole=cluster-admin --user=system:serviceaccount:kube-system:default
 
- echo "The current pods are:"
+echo "The current pods are:"
 kubectl get pods --all-namespaces
 kubectl describe pods --all-namespaces
 
- echo $HELM_HOST
+echo $HELM_HOST
 # expects tillerless helm, since HELM_HOST is defined
 helm plugin install https://github.com/rimusz/helm-tiller || true
 helm tiller start-ci
