@@ -23,9 +23,11 @@ kubectl create clusterrolebinding superpowers --clusterrole=cluster-admin --user
 
 echo "The current pods are:"
 kubectl get pods --all-namespaces
-kubectl describe pods --all-namespaces
+kubectl get pods -n kube-system
 
-echo $HELM_HOST
+kubectl get nodes
+
+#echo $HELM_HOST
 # expects tillerless helm, since HELM_HOST is defined
 helm plugin install https://github.com/rimusz/helm-tiller || true
 helm tiller start-ci
