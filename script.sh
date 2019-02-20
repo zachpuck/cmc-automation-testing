@@ -5,19 +5,19 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-function finish {
-  kind delete cluster
-}
-trap finish EXIT
+#function finish {
+#  kind delete cluster
+#}
+#trap finish EXIT
 
 echo "The current environment contains these variables: $(env)"
 echo "The current directory is $(pwd)"
 
-service docker start
-sleep 10
-kind create cluster --wait=10m --loglevel=debug
-
-export KUBECONFIG=$(kind get kubeconfig-path)
+#service docker start
+#sleep 10
+#kind create cluster --wait=10m --loglevel=debug
+#
+#export KUBECONFIG=$(kind get kubeconfig-path)
 
 kubectl create clusterrolebinding superpowers --clusterrole=cluster-admin --user=system:serviceaccount:kube-system:default
 
