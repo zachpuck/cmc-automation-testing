@@ -57,8 +57,8 @@ trap finish EXIT
 echo "The current environment contains these variables: $(env)"
 echo "The current directory is $(pwd)"
 
-service docker start
-sleep 10
+#service docker start
+#sleep 10
 kind create cluster --wait=10m --loglevel=debug
 
 export KUBECONFIG=$(kind get kubeconfig-path)
