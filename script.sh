@@ -14,7 +14,7 @@ echo "The current environment contains these variables: $(env)"
 echo "The current directory is $(pwd)"
 
 #service docker start
-sleep 500
+sleep 30
 #kind create cluster --wait=10m --loglevel=debug
 #
 #export KUBECONFIG=$(kind get kubeconfig-path)
