@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cmc-deployment
+spec:
+  template:
+    spec:
+      serviceAccountName: tiller
+      containers:
+        - name: cmc-deployment
+          image: zachpuck/cmc-deploy-testing:latest
+          command: [ "./deploy.sh" ]
+      restartPolicy: Never
+  backoffLimit: 4

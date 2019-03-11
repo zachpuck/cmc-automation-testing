@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cmc-deployment-job
+spec:
+  schedule: "* */1 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: tiller
+          containers:
+            - name: cmc-deployment-job
+              image: zachpuck/cmc-deploy-testing:latest
+              command: [ "./deploy.sh" ]
+          restartPolicy: Never
+      backoffLimit: 4
