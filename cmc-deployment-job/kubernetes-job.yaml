@@ -12,8 +12,8 @@ spec:
           command: [ "./deploy.sh" ]
           env:
           - name: CMA_SSH_BOOTSTRAP_IP
-            value: ""
+            value: "10.240.0.4"
           - name: CMA_SSH_AIRGAP_PROXY_IP
-            value: ""
+            value: "10.240.0.7"
       restartPolicy: Never
   backoffLimit: 4
