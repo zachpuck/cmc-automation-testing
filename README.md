@@ -21,7 +21,7 @@ list all available ops
 ```
 opctl ls
 ```
-to create the machiens for testing: (this will ask for your azure ServicePrincipal ID and Secret, it will also ask for the prefix name for the vms)
+to create the machines for testing: (this will ask for your azure ServicePrincipal ID and Secret, it will also ask for the prefix name for the vms)
 ```
 opctl run create-azure-infra
 ```
