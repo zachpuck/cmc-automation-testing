@@ -97,8 +97,8 @@ if [ -z "$(helm list | grep cma-ssh)" ] || [ ! -z "$(helm diff upgrade cma-ssh c
         cnct/cma-ssh \
         --namespace cma \
         --tiller-namespace=kube-system \
-        --set install.bootstrapIp='' \
-        --set install.airgapProxyIp='' \
+        --set install.bootstrapIp=${CMA_SSH_BOOTSTRAP_IP} \
+        --set install.airgapProxyIp=${CMA_SSH_AIRGAP_PROXY_IP} \
         --install
 else
     echo "no changes to helm release: cma-ssh"

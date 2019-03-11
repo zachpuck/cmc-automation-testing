@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: cmc-deployment-job
 spec:
-  schedule: "* */1 * * *"
+  schedule: "0 */1 * * *"
   jobTemplate:
     spec:
       template:
@@ -13,5 +13,10 @@ spec:
             - name: cmc-deployment-job
               image: zachpuck/cmc-deploy-testing:latest
               command: [ "./deploy.sh" ]
+              env:
+              - name: CMA_SSH_BOOTSTRAP_IP
+                value: ""
+              - name: CMA_SSH_AIRGAP_PROXY_IP
+                value: ""
           restartPolicy: Never
       backoffLimit: 4

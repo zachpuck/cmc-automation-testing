@@ -10,5 +10,10 @@ spec:
         - name: cmc-deployment
           image: zachpuck/cmc-deploy-testing:latest
           command: [ "./deploy.sh" ]
+          env:
+          - name: CMA_SSH_BOOTSTRAP_IP
+            value: ""
+          - name: CMA_SSH_AIRGAP_PROXY_IP
+            value: ""
       restartPolicy: Never
   backoffLimit: 4
